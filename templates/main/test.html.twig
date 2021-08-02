@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+    {% block body %}
+        <h1>Tests</h1>
+
+        <div>{{ mySerie.title}} {{ autreVar }}</div>
+
+        <div>{{ "now"|date('Y') }}</div> {# le filtre date avec le Y en majuscule indique que l'on veut filter uniquement
+    sur l'année. Le now est reconnu instinctivement par php#}
+
+        <div>
+            {# commentaire: création d'une variable #}
+            {% set name = "Anne-Charlotte" %}
+            {# affichage de la variable dans la page web. Plus besoin d'echo! #}
+            <h2>{{ name|upper }}</h2>
+
+            {# Création de tableau #}
+            {% set colors = ["orange", "pink", "turquoise", "blue"] %}
+
+            <div>Nombre de couleurs: {{ colors|length }}</div>
+            <div>{{ colors|join(' / ') }}</div>
+
+            {# boucle pour afficher chaque élément du tableau #}
+            {% for color in colors %}
+                <div>{{ loop.index }}</div>
+                <div style="background-color: {{ color }}">{{ color }}</div>
+            {% endfor %}
+
+            {# objet: pour délimiter un objet on utilise une paire d'accolades #}
+            {% set book = {
+                title: 'Pifpaf',
+                year:2000,
+                author:'John Doe'}
+            %}
+
+            <h3>{{ book.author }}</h3>
+
+            <div>
+                {% for key, val in book %}
+                    <div>{{ key }} : {{ val }}</div>
+                {% endfor %}
+            </div>
+
+        </div>
+    {% endblock %}
+{% block title %}
+    {{ parent() }} | Page de tests
+{% endblock %}
+

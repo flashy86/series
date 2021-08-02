@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+{# Dans les pages qui vont servir à remplir le squelette (base.html.twig),
+la 1ere chose à faire est d'étendre ce squelette. C'est un peu comme le parent. #}
+
+{% block body %}
+    <h1>Coucou</h1>
+    <h2>Toutes les démonstrations du cours et quelques tests avec Symfony et Twig</h2>
+{% endblock %}
+
+{% block title %}
+    {{ parent() }} | Home
+{% endblock %}

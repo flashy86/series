@@ -1,19 +1,36 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {# Run `composer require symfony/webpack-encore-bundle`
-           and uncomment the following Encore helpers to start using Symfony UX #}
-        {% block stylesheets %}
-            {#{{ encore_entry_link_tags('app') }}#}
-        {% endblock %}
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0,">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}Series!{% endblock %}</title>
+    {# on laisse un titre par défaut qd même au cas ou on oublie de remplacer le titre sur une page. Cela permet aussi
+    de l'appliquer sur une page "enfant"#}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/normalize.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="icon" href="{{ asset('img/icon.png') }}">
 
-        {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+</head>
+<body>
+<header>
+    <h1><a href="{{ path('main_home') }}"><img src="{{ asset('img/logo.svg') }}" alt="logo du site series">Series</a></h1>
+    {% include('inc/nav.html.twig') %}
+</header>
+<main>
+    {% block body %}{% endblock %}
+</main>
+<footer>
+    {% include('inc/nav.html.twig') %}
+    <div>&copy; {{ "now"|date("Y") }} Series!</div>
+</footer>
+
+
+
+
+
+</body>
 </html>
