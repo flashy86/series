@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Serie;
+use App\Form\SerieType;
+use App\Repository\SerieRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,10 +17,14 @@ class SerieController extends AbstractController
 	/**
 	 * @Route ("/series", name="serie_list")
 	 */
-	public function list():Response{
+	public function list(SerieRepository $serieRepository):Response
+	{
 		//todo: aller chercher les séries en bdd
 
+		$series = $serieRepository->findBestSeries();
+
 		return $this->render('series/list.html.twig', [
+			"series"=>$series
 
 		]);
 	}
@@ -26,10 +32,15 @@ class SerieController extends AbstractController
 	/**
 	 * @Route ("/series/details/{id}", name="serie_details")
 	 */
-	public function details(int $id):Response{
+	public function details(int $id, SerieRepository $serieRepository):Response
+	{
 		//todo: aller chercher le détail des séries en bdd
 
+		$serie = $serieRepository->find($id);
+
+
 		return $this->render('series/details.html.twig', [
+			"serie"=>$serie
 
 		]);
 	}
@@ -37,16 +48,41 @@ class SerieController extends AbstractController
 	/**
 	 * @Route ("/create", name="serie_create")
 	 */
-	public function create(Request $request):Response{
-		dump($request);
-		return $this->render('series/create.html.twig', [
+	public function create(
+		Request $request,
+		EntityManagerInterface $entityManager
+	):Response
+	{
+		$serie = new Serie();
+		$serie->setDateCreated(new \DateTime());
+		$serie->setBackdrop("backdrop");
 
+		$serieForm = $this->createForm(SerieType::class, $serie);
+
+
+		$serieForm->handleRequest($request);
+
+		if ($serieForm->isSubmitted() && $serieForm->isValid()){
+
+			$entityManager->persist($serie);
+			$entityManager->flush();
+
+			$this->addFlash('success', 'Serie added!! Good job :-)');
+			return $this->redirectToRoute('serie_details', ['id' => $serie->getId()]);
+		}
+
+		//todo: traiter le formulaire
+
+
+		return $this->render('series/create.html.twig', [
+			'serieForm' => $serieForm->createView()
 		]);
 	}
 	/**
 	 * @Route ("/series/demo", name="serie_em-demo")
 	 */
-	public function demo(EntityManagerInterface $entityManager):Response{
+	public function demo(EntityManagerInterface $entityManager):Response
+	{
 		//démo pour entitymanager
 		//création d'une instance de l'entité
 		$serie = new Serie();
@@ -74,7 +110,7 @@ class SerieController extends AbstractController
 
 		$serie->setGenres('comedy');
 
-		//$entityManager->remove($serie);
+		$entityManager->remove($serie);
 		$entityManager->flush();
 
 		return $this->render('series/create.html.twig', [

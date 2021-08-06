@@ -1,12 +1,21 @@
 {% extends 'base.html.twig' %}
-
+{# ATTENTION A BIEN METTRE LE CODE DANS LE BLOC BODY ET NON TITLE!!!!!!!! #}
 {% block title %}
-    <div>
-        {# todo: afficher le formulaire de création #}
-    </div>
+    {# todo: afficher le formulaire de création #}
 {% endblock %}
 
 {% block body %}
-    Create a new serie |{{ parent() }}
+    <div>
+
+        {{ form_start(serieForm) }}
+
+
+        {{ form_widget(serieForm) }}
+
+        <button>Create!</button>
+
+        {{ form_end(serieForm) }}
+
+    </div>
 {% endblock %}
 

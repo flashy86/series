@@ -1,12 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    todo: afficher le titre de la série dans le navigateur |{{ parent() }}
+{{serie.name}} |{{ parent() }}
 {% endblock %}
 
 {% block body %}
-    <h2>todo: le titre de la série</h2>
+    <h2>{{serie.name}}</h2>
+    <div>Genre : {{ serie.genres }}</div>
+    <div>Descriptif de la série : <br> {{ serie.overview }}</div>
+    <div>Vote: {{ serie.vote }}</div>
+    <div>Popularité: {{ serie.popularity }} /500</div>
+    <div>Statut de la série : {{ serie.status }}</div>
 
-    {# todo: afficher toutes les infos de la série  #}
+
 {% endblock %}
 
