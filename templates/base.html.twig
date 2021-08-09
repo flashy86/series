@@ -8,12 +8,15 @@
         {# on laisse un titre par défaut qd même au cas ou on oublie de remplacer le titre sur une page. Cela permet aussi
         de l'appliquer sur une page "enfant"#}
         <link rel="preconnect" href="https://fonts.googleapis.com">
+
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,600&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,600&family=Monoton&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset('css/normalize.css') }}">
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <link rel="icon" href="{{ asset('img/icon.png') }}">
 
+
+        {% block extrastyles %}{% endblock %}
     </head>
     <body>
     <header>

@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Serie;
 use App\Form\SerieType;
 use App\Repository\SerieRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,13 +18,10 @@ class SerieController extends AbstractController
 	 */
 	public function list(SerieRepository $serieRepository):Response
 	{
-		//todo: aller chercher les séries en bdd
-
 		$series = $serieRepository->findBestSeries();
 
 		return $this->render('series/list.html.twig', [
 			"series"=>$series
-
 		]);
 	}
 
@@ -34,19 +30,20 @@ class SerieController extends AbstractController
 	 */
 	public function details(int $id, SerieRepository $serieRepository):Response
 	{
-		//todo: aller chercher le détail des séries en bdd
-
 		$serie = $serieRepository->find($id);
 
+		if (!$serie){
+			throw $this->createNotFoundException
+			('oh no!! The series does not exist, but you can create one if you want!! :-)');
+		}
 
 		return $this->render('series/details.html.twig', [
 			"serie"=>$serie
-
 		]);
 	}
 
 	/**
-	 * @Route ("/create", name="serie_create")
+	 * @Route ("/series/create", name="serie_create")
 	 */
 	public function create(
 		Request $request,
@@ -118,4 +115,15 @@ class SerieController extends AbstractController
 		]);
 	}
 
+	/**
+	 * @Route ("/series/delete/{id}", name="serie_delete")
+	 */
+	public function delete(Serie $serie, EntityManagerInterface $entityManager)
+	{
+		//sinon, à la place d'injecter la série directement, on peut la recuper repository + find
+
+		$entityManager->remove($serie);
+		$entityManager->flush();
+		return $this->redirectToRoute('main_home');
+	}
 }
